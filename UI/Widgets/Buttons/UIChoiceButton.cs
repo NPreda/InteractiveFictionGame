@@ -21,12 +21,12 @@ public class UIChoiceButton: UIPressButton, IClickInterface<UIChoiceButton>
         set => _skinData = value;
     }
 
-
+    [SerializeField] private Image icon;
     [SerializeField] private TMP_Text body;        //flavour text for the choice
     [SerializeField] private TMP_Text note;        //small note at the bottom for extra mechanical information
     [SerializeField] private ClueBox clueBox;   //special object used to show users the qualities needed for the choice.
 
-    private bool _isActive;
+    [SerializeField]private bool _isActive = true;
 
     public void Populate(Choice choice)
     {
@@ -37,16 +37,22 @@ public class UIChoiceButton: UIPressButton, IClickInterface<UIChoiceButton>
     public override void BroadcastClick() => OnClickEvent?.Invoke(this);
 
 
-     public void LoadChoice(Choice inChoice)
-     {
+    public void LoadChoice(Choice inChoice)
+    {
         this.title.text = choice.title;                                     //applies name into text
         this.body.text = choice.body;                                       //applies value into text
-        if(inChoice.contested){                                 //if contest exists, populate the gui with the chance of success
+
+        if(choice.choiceImage != null)  icon.sprite = choice.choiceImage;
+        else icon.gameObject.SetActive(false);
+
+        if(inChoice.contested)                                              //if contest exists, populate the gui with the chance of success
+        {                                 
             int chance = inChoice.contest.ContestChance();
             this.note.text =  string.Format ("Your {0} quality gives {1}% chance", inChoice.contest.QualityName(), inChoice.contest.ContestChance());;            
         }
 
-        if (choice.conditional && choice.conditions.statConditions.Any()){            //if the choice is contingent on  bunch of prerequisites
+        if (choice.conditional && choice.conditions.statConditions.Any()) //if the choice is contingent on  bunch of prerequisites
+        {            
             ExpressionParser exParser = new ExpressionParser();
 
 
@@ -60,6 +66,7 @@ public class UIChoiceButton: UIPressButton, IClickInterface<UIChoiceButton>
             clueBox.conditions = results;
             clueBox.Activate();
             print(string.Format("These are the result {0}", results));
+            Debug.Log("If hidden is returning: " + if_hidden);
             if (if_failed == true && if_hidden == true){
                 this._isActive=false;
                 Unsubscribe();
@@ -69,7 +76,8 @@ public class UIChoiceButton: UIPressButton, IClickInterface<UIChoiceButton>
                 Unsubscribe();
             }
         }
-     }
+        _isDirty = true;
+    }
 
     protected override void OnSkinUI ()
     {

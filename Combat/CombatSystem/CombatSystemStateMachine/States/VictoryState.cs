@@ -28,9 +28,9 @@ public class VictoryState : BaseCombatSystemState
         {
             UiUnit remainingEnemy = (UiUnit)CombatBlackboard.Enemies[0];
             Storylet enemyResult = remainingEnemy.enemyLoss;
-            new SwitchToStoryModeCommand(enemyResult).AddToQueue();
+            new PlayStoryTriggerCommand(enemyResult).AddToQueue();
         }else{
-            new SwitchToStoryModeCommand(Handler.defaultWin).AddToQueue();
+            new PlayStoryTriggerCommand(Handler.defaultWin).AddToQueue();
         }
     }  
 

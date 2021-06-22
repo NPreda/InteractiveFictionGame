@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System;
-
+using Sirenix.OdinInspector;
 
 public interface IClickInterface<out T>
 {
@@ -94,17 +94,16 @@ public class UIButton : CustomUI, IClickInterface<UIButton>
 
     protected override void OnSkinUI ()
     {
-        
         base.OnSkinUI();
         if(_isSelected)
         {
-            _background = skinData.selectBackground;
-            _font = skinData.selectFont;
-            _color = skinData.selectColor;
+            _background = _skinData.selectBackground;
+            _font = _skinData.selectFont;
+            _color = _skinData.selectColor;
         }else{
-            _background = skinData.unselectBackground;
-            _font = skinData.unselectFont;
-            _color = skinData.unselectColor;
+            _background = _skinData.unselectBackground;
+            _font = _skinData.unselectFont;
+            _color = _skinData.unselectColor;
         }
 
 

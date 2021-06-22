@@ -2,19 +2,17 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class OpenExploreStoryletCommand : Command
+public class OpenTraveletDisplayCommand : Command
 {
-    private Storylet storylet;
 
-    public OpenExploreStoryletCommand(Storylet storylet)
+    public OpenTraveletDisplayCommand()
     {        
-        this.storylet = storylet;
     }
 
     public override void StartCommandExecution()
     {
         //We assume this will always return to a proper storylet screen. Otherwise we are doomed.
-        SceneControl.Instance.exploreDisplay.storyDisplay.Enable(storylet);
+        SceneControl.Instance.exploreDisplay.storyDisplay.Enable();
         CommandExecutionComplete();
     }
 

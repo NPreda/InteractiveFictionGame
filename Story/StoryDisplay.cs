@@ -1,25 +1,23 @@
-﻿
+
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.UI;
 using Tools.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class StoryDisplay : TweeningMover
 {
     //[SerializeField] Character character;
-    [SerializeField] private Storylet storylet = null;
     [SerializeField] private TMP_Text textTitle;
+    [SerializeField] private Image sideImage;
     [SerializeField] private TMP_Text textBody;    
     [SerializeField] private GameObject choiceGroup;    
     [SerializeField] private ResultBox resultGroup;
     [SerializeField] private GameObject choiceTemplate;  
     [SerializeField] private TMP_Text  popTemplate;     
-    public List<GameObject> choiceButtons;         //reference to the scripts of all the button choices
-
-    private string title;
-    private string body;
+    public List<UIChoiceButton> choiceButtons;         //reference to the scripts of all the button choices
     
     //Object to process information of screen data
     ExpressionParser exParser = new ExpressionParser();
@@ -27,16 +25,11 @@ public class StoryDisplay : TweeningMover
     //------------------------------------------------------------------------------
     #region ActivationMethods
 
-    public override void Enable(){
-        Load(storylet);
+    public override void Enable()
+    {
         Fade(1f, 1f, base.Enable);
         Subscribe();
-    }
-
-    public void Enable(StoryTrigger st)
-    {
-        Load(st);
-        this.Enable();
+        DisplayStorylet();
     }
 
     public override void Disable()
@@ -62,78 +55,75 @@ public class StoryDisplay : TweeningMover
 
     #endregion
     //------------------------------------------------------------------------------
-    void RefreshScreen(){   //it refreshes the choices to allow updates to stats to affect them
-        if(choiceGroup.activeSelf == true){
-            DisplayChoices(storylet);
+
+    //it refreshes the choices to allow updates to stats to affect them
+    void RefreshScreen()
+    {   
+        if(choiceGroup.activeSelf == true)
+        {
+            DisplayChoices(StoryletCache.choices);
         }
     }
 
-    void Load(StoryTrigger st)                 //load the story
+    void DisplayStorylet()
     {
-        if(st is ExploreTrigger){
-            SceneControl.Instance.DisplayExplore();
-        }else if (st is CombatTrigger){
-            CombatTrigger ct = (CombatTrigger) st; 
-            SceneControl.Instance.DisplayCombat(ct);
-        }else if (st is CloseTrigger){
-            this.Disable();
-        }else if (st is Storylet){
-            storylet = (Storylet) st;
-            DisplayStorylet(storylet);
-            DisplayChoices(storylet);
-        }else{
-            Debug.Log(st.GetType());
-            throw new Exception("Error: StoryTrigger being loaded is not of a parssable type");            
-        }
+        //Format and Display the main text body
+        textTitle.text = StoryletCache.title;
+        textBody.text = StoryletCache.body;
+
+        if(StoryletCache.image != null) sideImage.sprite= StoryletCache.image;
+        else sideImage.gameObject.SetActive(false);
+
+        DisplayChoices(StoryletCache.choices);        
     }
 
-    void ClearChoices(){
+
+    void ClearChoices()
+    {
         //Clear previous choices and their gameobjects
-        foreach(var b in choiceButtons){
-            b.GetComponent<UIChoiceButton>().Destroy();
+        foreach(var b in choiceButtons)
+        {
+            b.Destroy();
         }
         choiceButtons.Clear();   
     }
 
-   void DisplayStorylet(Storylet st){
-        //Format and Display the main text body
-        title = st.title;
-        body  = st.body;
-
-        textTitle.text = title;
-        textBody.text= body;
-   }
-
-    void DisplayChoices(Storylet st){
+    void DisplayChoices(List<Choice> choices)
+    {
         //Format and display the choices related to this storylet
         //Clear previous choices and their gameobjects
         ClearChoices();
         resultGroup.SetInactive();   
         choiceGroup.SetActive(true);       
         //load new ones
-        try {
-            foreach(var choice in storylet.choices){
+        try 
+        {
+            foreach(var choice in choices)
+            {
                 createButton(choice, choiceGroup);
             }
-        } catch (System.Exception ex) {
+        } 
+        catch (System.Exception ex) 
+        {
             Debug.Log(string.Format("Choices failed to display for storylet with error: {0}", ex));
         }
 
-        foreach(var b in choiceButtons){
-            b.GetComponent<UIChoiceButton>().OnClickEvent += OnChoiceClick; //if a choice button has been clicked, do stuff  
+        foreach(var b in choiceButtons)
+        {
+            b.OnClickEvent += OnChoiceClick; //if a choice button has been clicked, do stuff  
         }
         //subscribe to the result button as well. Be wary of issues
         resultGroup.button.OnClickEvent +=OnChoiceClick;
    }
 
-   void DisplayResult(Result rslt){
+   void DisplayResult(Result rslt)
+   {
             string rewardTxt = "";
 
             ClearChoices();
             choiceGroup.SetActive(false);
             resultGroup.SetActive();            
             resultGroup.body.text = rslt.body;
-
             var rewardDict = exParser.processRewards(rslt.reward);          //a list of Dictionary<String, [int,int]>
             foreach (var reward in rewardDict){
                 string qualityName = reward.Key;
@@ -153,22 +143,20 @@ public class StoryDisplay : TweeningMover
 
    }
 
-    void createButton(Choice choice, GameObject choiceGroup){                       
-        //Creates a choice button using the choice information givens
-        GameObject button = Instantiate(choiceTemplate, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;                             //gets the UI prefab
-        UIChoiceButton  bScript = button.GetComponent<UIChoiceButton>();              //gets the prefab script that handles its variables
-        bScript.Populate(choice);                                           //load the choice settings into the prefab script
-        button.transform.SetParent(choiceGroup.transform);              //set the relevant UI group GameObject as parent
-        choiceButtons.Add(button);                                     //add it to a list to keep track of it and reference it for event management
+    void createButton(Choice choice, GameObject choiceGroup)
+    {                       
+        ChoiceButtonFactory choiceFactory = new ChoiceButtonFactory();
+        UIChoiceButton choiceButton = choiceFactory.GetNewInstance(choiceGroup, choice, choiceTemplate);
+        choiceButtons.Add(choiceButton);                                     //add it to a list to keep track of it and reference it for event management
     }
 
-    void OnChoiceClick(UIChoiceButton button){
-
+    void OnChoiceClick(UIChoiceButton button)
+    {
             if(!button.choice.contested){         //if there is no contest attached, go directly to the stored goTo;
-                if (button.choice.defaultResult.body.Trim() != ""){   //check if there is any result attached to this choice
+                if (button.choice.defaultResult.body.Trim() != "" || button.choice.defaultResult.reward.Trim() != ""){   //check if there is any result attached to this choice
                     DisplayResult(button.choice.defaultResult);                  //Load up the failure result 
                 }else{
-                    Load(button.choice.defaultResult.goTo);
+                    new PlayStoryTriggerCommand(button.choice.defaultResult.goTo).AddToQueue();
                 }
             }else{                                     //otherwise run the contest and go to the contest goTo;
                 var cont = button.choice.contest;

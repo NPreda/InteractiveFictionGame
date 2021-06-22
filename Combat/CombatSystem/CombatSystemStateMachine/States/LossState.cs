@@ -27,9 +27,9 @@ public class LossState : BaseCombatSystemState
         {
             UiUnit strongestEnemy = (UiUnit)CombatBlackboard.Enemies[0];
             Storylet enemyResult = strongestEnemy.enemyWin;
-            new SwitchToStoryModeCommand(enemyResult).AddToQueue();
+            new PlayStoryTriggerCommand(enemyResult).AddToQueue();
         }else{
-            new SwitchToStoryModeCommand(Handler.defaultLoss).AddToQueue();
+            new PlayStoryTriggerCommand(Handler.defaultLoss).AddToQueue();
         }
     }
 

@@ -9,7 +9,7 @@ public class Command
 
     public virtual void AddToQueue()
     {
-        Debug.Log("Adding  Command" + this + "to Queue with backlog: " + CommandQueue.Count);
+        Debug.Log("Adding  Command: " + this + " to Queue with backlog: " + CommandQueue.Count);
 
         CommandQueue.Enqueue(this);
         if (!playingQueue){
@@ -53,5 +53,13 @@ public class Command
                 return true;
         }
         return false;
+    }
+
+    public IEnumerator DelayAction(float delayTime)
+    {
+    //Wait for the specified delay time before continuing.
+    yield return new WaitForSeconds(delayTime);
+    
+    //Do the action after the delay time has finished.
     }
 }

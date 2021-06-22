@@ -58,7 +58,6 @@ public class ExpressionParser
                 qualityName = id;
             }else if(QualityDB.Instance.inDatabase(id)){
                 qualityName = QualityDB.Instance.returnQuality(id).qualityName;
-                Debug.Log(qualityName);
             }
             else
             {

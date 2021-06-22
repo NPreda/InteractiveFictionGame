@@ -1,15 +1,32 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Text;
+using Sirenix.OdinInspector;
 
-[CreateAssetMenu(fileName = "storylet", menuName= "StoryElements/Storylet")]
+public enum StoryletType
+{
+    Storylet,
+    Travelet
+}
+
+[CreateAssetMenu(fileName = "New Storylet", menuName= "StoryElements/Storylet")]
 public class Storylet : StoryTrigger
 {
     [HideInInspector]public string id{get => name;}
+
+    [BoxGroup("Core")]
+    [SerializeField] public StoryletType storyletType;
+
+    [BoxGroup("Core")]
     [SerializeField] public string title;
-    [TextArea(25,8)] public string body;
+
+
+    [BoxGroup("Core")]
+    [PreviewField()]
+    public Sprite sideImage;
+
+    [BoxGroup("Core")]
+    [TextArea(20,8)] public string body;
+
     [SerializeField] public List<Choice> choices = new List<Choice>();    
 
     private void OnValidate(){

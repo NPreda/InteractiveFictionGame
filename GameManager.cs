@@ -48,8 +48,7 @@ public class GameManager : MonoBehaviour
         ITarget player = friendPanel.LoadPlayer(); 
 
         //start the story
-        SceneControl.Instance.DisplayStory(startingStorylet);
-
+        new PlayStoryTriggerCommand(startingStorylet).AddToQueue();
     }
 
     public SimpleTooltip returnSimpleTooltip(){

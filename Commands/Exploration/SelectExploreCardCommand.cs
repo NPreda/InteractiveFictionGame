@@ -12,7 +12,9 @@ public class SelectExploreCardCommand : Command
 
     public override void StartCommandExecution()
     {
-        new OpenExploreStoryletCommand(card.card.storylet).AddToQueue();
+        StoryletCache.StoreStorylet(card.card.storylet);
+
+        new OpenTraveletDisplayCommand().AddToQueue();
         SceneControl.Instance.exploreDisplay.ExpendCard(card);
         CommandExecutionComplete();
     }

@@ -10,7 +10,7 @@ namespace Custom.UI
 
         protected virtual void OnSkinUI()
         {
-            _isDirty = true;
+            _isDirty = false;
         }
 
         public virtual void Awake()
@@ -24,7 +24,7 @@ namespace Custom.UI
             OnSkinUI();
         }
 
-        private void OnValidate ()
+        private void OnValidate()
         {
             _isDirty = true;
         }

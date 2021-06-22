@@ -2,18 +2,17 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SwitchToStoryModeCommand : Command
+public class SwitchToExploreModeCommand : Command
 {
     private Storylet storylet;
 
-    public  SwitchToStoryModeCommand(Storylet storylet)
+    public  SwitchToExploreModeCommand()
     {        
-        this.storylet = storylet;
     }
 
     public override void StartCommandExecution()
     {
-        SceneControl.Instance.DisplayStory(storylet);
+        SceneControl.Instance.DisplayExplore();
         CommandExecutionComplete();
     }
 

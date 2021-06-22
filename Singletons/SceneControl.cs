@@ -1,6 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+public enum SceneState
+{
+    Idle,
+    Story,
+    Explore,
+    Combat
+}
 
 public class SceneControl : MonoBehaviour
 {
@@ -9,6 +15,7 @@ public class SceneControl : MonoBehaviour
     public ExploreDisplay exploreDisplay;
     public CombatSystem combatSystem;
     public CharMenu charMenu;
+    public SceneState sceneState;
 
     //Instance Control
     //variables to help global instance selection
@@ -23,6 +30,7 @@ public class SceneControl : MonoBehaviour
     {
         combatSystem.Setup();
         exploreDisplay.Setup();
+        DisableAll();
     }
 
     public void DisplayCombat(CombatTrigger ct){
@@ -30,6 +38,7 @@ public class SceneControl : MonoBehaviour
         storyDisplay.Disable();
         exploreDisplay.Disable();
         combatSystem.Enable(ct);
+        sceneState = SceneState.Combat;
     }
     
     public void DisplayExplore(){       //add the location type later
@@ -37,12 +46,24 @@ public class SceneControl : MonoBehaviour
         storyDisplay.Disable();
         combatSystem.Disable();
         exploreDisplay.Enable();
+        sceneState = SceneState.Explore;
     }
 
-    public void DisplayStory(Storylet st){
+    public void DisplayStory(){
         charMenu.Activate();
         exploreDisplay.Disable();
         combatSystem.Disable();
-        storyDisplay.Enable(st);
+        storyDisplay.Enable();
+        sceneState = SceneState.Story;
+    }
+
+    public void DisableAll()
+    {
+        charMenu.Activate();
+        exploreDisplay.Disable();
+        combatSystem.Disable();
+        storyDisplay.Disable();    
+        sceneState = SceneState.Idle;
+  
     }
 }
