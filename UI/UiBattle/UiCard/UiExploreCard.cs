@@ -13,6 +13,7 @@ public class UiExploreCard : UiCard, IUiCard
         public new ExploreCard card{ get; set; }
         public UiCardSkin barrierSkin;
         public UiCardSkin dangerSkin;
+        public UiCardSkin campSkin;
 
         #endregion
 
@@ -27,7 +28,7 @@ public class UiExploreCard : UiCard, IUiCard
             this.isSingleUse = true;
 
             //set if the card can be discarded based on the card type
-            if(card.type == ExploreType.Normal)
+            if(card.type != ExploreType.Danger || card.type != ExploreType.Barrier)
                 this.isDiscardable = true;
             else
                 this.isDiscardable = false;
@@ -37,6 +38,8 @@ public class UiExploreCard : UiCard, IUiCard
                 this.CardFace.LoadFace(barrierSkin, card.image,  card.title, card.description);
             }else if(card.type == ExploreType.Danger){
                 this.CardFace.LoadFace(dangerSkin, card.image,  card.title, card.description);
+            }else if(card.type == ExploreType.Camp){
+                this.CardFace.LoadFace(campSkin, card.image,  card.title, card.description);
             }else{
                 this.CardFace.LoadFace(card.image, card.title, card.description);
             }

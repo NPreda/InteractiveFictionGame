@@ -10,6 +10,7 @@ using UnityEngine;
         Health = 3,
         Speed = 4,
         Resolve = 5,
-        Energy = 6
+        Energy = 6,
+        Wounds = 7
     }
 

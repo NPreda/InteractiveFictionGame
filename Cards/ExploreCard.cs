@@ -5,7 +5,8 @@ using UnityEngine;
 public enum ExploreType{
     Normal = 0,
     Barrier = 1,
-    Danger = 2
+    Danger = 2,
+    Camp = 3
 }
 
 public enum ExploreLocation{

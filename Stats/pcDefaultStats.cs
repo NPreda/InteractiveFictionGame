@@ -41,5 +41,11 @@ public class pcDefaultStats : RPGStatCollection
         energy.LimitMin = 0;
         energy.StatBaseMax = 3;
         energy.isHidden = true;
+
+        pcFloatingStat wounds = CreateOrGetStat<pcFloatingStat>(RPGStatType.Wounds);
+        energy.StatName = "Wounds";
+        energy.LimitMin = 0;
+        energy.StatBaseMax = 5;
+        energy.isHidden = true;
     }
 }
