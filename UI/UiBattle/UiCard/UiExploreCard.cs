@@ -28,7 +28,7 @@ public class UiExploreCard : UiCard, IUiCard
             this.isSingleUse = true;
 
             //set if the card can be discarded based on the card type
-            if(card.type != ExploreType.Danger || card.type != ExploreType.Barrier)
+            if(card.type != ExploreType.Danger && card.type != ExploreType.Barrier)
                 this.isDiscardable = true;
             else
                 this.isDiscardable = false;

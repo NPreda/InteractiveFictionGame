@@ -15,6 +15,8 @@ public class PlayStoryletCommand : Command
     {
         StoryletCache.StoreStorylet(storylet);   //let's put it in the cache
 
+        new UpturnFateCommand().AddToQueue();   //let's also spin the dice of fate to give new results
+
         if(storylet.storyletType == StoryletType.Storylet)
             new SwitchToStoryModeCommand().AddToQueue();
         else if(storylet.storyletType == StoryletType.Travelet)

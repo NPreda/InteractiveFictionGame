@@ -41,7 +41,7 @@ public class ExploreDeckSystem: CardDeckSystem<ExploreCard>
         for(int i = handCards.Count - 1; i >= 0; i--)
         {
             var card = (ExploreCard)handCards[i];
-            if(card.type != ExploreType.Danger || card.type != ExploreType.Barrier)
+            if(card.type != ExploreType.Danger && card.type != ExploreType.Barrier)
             {
                 DiscardCard(card);
             }

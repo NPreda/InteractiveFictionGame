@@ -63,6 +63,13 @@ public class Inventory : MonoBehaviour
     //---------------------------------------------------------------------------------------------------------------------
     #region InventoryManipulation
 
+    public void AddItem(string itemID, int newValue)
+    {
+        Quality item = QualityDB.Instance.returnQuality(itemID);
+        if(item != null) AddItem(item, newValue);
+        else throw new System.Exception("ERROR: Attempted to give invalid quality to inventory with id: " + itemID);
+    }
+
     public void AddItem(Quality item, int newValue)
     {     
         //first lets handle equippables
