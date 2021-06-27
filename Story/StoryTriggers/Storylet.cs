@@ -29,6 +29,18 @@ public class Storylet : StoryTrigger
 
     [SerializeField] public List<Choice> choices = new List<Choice>();    
 
+
+    //we need this to verify that all choices are properly populated on startup
+    public void OnEnable()
+    {
+        foreach(var choice in choices)
+        {
+            if(!choice.contested && choice.defaultResult == null)   throw new System.Exception("ASSIGNMENT ERROR: Storylet is missing an expected Default Result: " + this.id);
+            else if(choice.contested && (choice.contest.success == null && choice.contest.failure == null)) 
+                throw new System.Exception("ASSIGNMENT ERROR: Storylet is missing either an expected Success or Fail result: " + this.id);
+        }
+    }
+
     private void OnValidate(){
         foreach (var c in choices){       //if something changes in inspector go through all it's elements and clean up
             if (!c.conditional){

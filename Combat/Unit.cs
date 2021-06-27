@@ -21,4 +21,11 @@ public class Unit : ScriptableObject
     [SerializeField] public List<string> barkStrings;
 
 
+    public void OnEnable()
+    {
+        if(unitBehaviour== null)    throw new System.Exception("ASSIGNMENT ERROR: Unit not given an AI script to work with: " + this.id);
+        if(enemyWin== null)    throw new System.Exception("ASSIGNMENT ERROR: Enemy Unit not given an win scenario: " + this.id);
+        if(enemyLoss= null)    throw new System.Exception("ASSIGNMENT ERROR: Enemy Unit not given a loss scenario: " + this.id);
+    }
+
 }

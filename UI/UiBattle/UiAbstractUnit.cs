@@ -63,7 +63,7 @@ public class UiAbstractUnit : MonoBehaviour
         this.allegiance = allegiance;
 
         //populate the gui with the information
-        unitTitle.text = unitName;
+        //unitTitle.text = unitName;
 
         //set the isPlayer to false by default
         isPlayer = false;

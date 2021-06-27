@@ -19,4 +19,9 @@ public class ExploreCard : Card
     public Storylet storylet;
     public ExploreLocation location;
     public ExploreType type;
+
+    public void OnEnable()
+    {
+        if(storylet == null)    throw new System.Exception("ASSIGNMENT ERROR: Explore Card not given a reference storylet: " + this.id);
+    }
 }

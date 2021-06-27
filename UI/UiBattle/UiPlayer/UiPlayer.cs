@@ -13,10 +13,6 @@ public class UiPlayer : UiAbstractUnit , IUiPlayer
     
     [SerializeField] private ResolveBar resolveBar;
 
-    [SerializeField] private TMP_Text mightValue;    
-    [SerializeField] private TMP_Text finesseValue;
-    [SerializeField] private  TMP_Text presenceValue;
-
     public int strength{get;set;}
 
 
@@ -176,9 +172,6 @@ public class UiPlayer : UiAbstractUnit , IUiPlayer
     #region UI
 
     public override void RefreshUI(){
-        mightValue.text = _might.ToString(); 
-        finesseValue.text = _finesse.ToString();
-        presenceValue.text = _presence.ToString();
         speedValue.text = ReturnSpeed().ToString();
 
         healthBar.SetSize(_currentHp, _maxHp);

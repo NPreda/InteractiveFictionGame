@@ -14,6 +14,7 @@ public class StoryDisplay : TweeningMover
     [SerializeField] private Image sideImage;
     [SerializeField] private TMP_Text textBody;    
     [SerializeField] private GameObject choiceGroup;    
+    [SerializeField] private GameObject choicePanel;    
     [SerializeField] private ResultBox resultGroup;
     [SerializeField] private GameObject choiceTemplate;  
     [SerializeField] private TMP_Text  popTemplate;     
@@ -94,7 +95,7 @@ public class StoryDisplay : TweeningMover
         //Clear previous choices and their gameobjects
         ClearChoices();
         resultGroup.SetInactive();   
-        choiceGroup.SetActive(true);       
+        choicePanel.SetActive(true);       
         //load new ones
         try 
         {
@@ -121,7 +122,7 @@ public class StoryDisplay : TweeningMover
             string rewardTxt = "";
 
             ClearChoices();
-            choiceGroup.SetActive(false);
+            choicePanel.SetActive(false);
             resultGroup.SetActive();            
             resultGroup.body.text = rslt.body;
             var rewardDict = exParser.processRewards(rslt.reward);          //a list of Dictionary<String, [int,int]>
