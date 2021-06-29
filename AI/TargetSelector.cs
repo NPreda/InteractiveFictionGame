@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum TargetingMethod
 {
-    Random = 0,
+    Random = 0
 }
 
 public class TargetSelector 

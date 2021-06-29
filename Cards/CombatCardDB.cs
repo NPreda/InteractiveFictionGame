@@ -47,15 +47,15 @@ public class CombatCardDB : MonoBehaviour
     //return all cards the deck needs using your qualities
     public List<CombatCard> returnCards(){
         //get the current weapon 
-        EquippableQuality equipedWeapon = Inventory.Instance.ReturnEquippedType(EquipmentType.Weapon);
-        if (equipedWeapon == null)      //load a default weapon if none, likely fists
-            equipedWeapon = defaultWeapon;
+        EquippableQuality equippedWeapon = Inventory.Instance.ReturnEquippedType(EquipmentType.Weapon);
+        if (equippedWeapon == null)      //load a default weapon if none, likely fists
+            equippedWeapon = defaultWeapon;
 
         //instantiate the card list    
         List<CombatCard> returnCards = new List<CombatCard>();
 
         foreach(var c in cards){
-            if ((c.item == null) || (c.item == equipedWeapon)){     //if the cards have either no weapon requirement or a valid one
+            if ((c.item == null) || (c.item == equippedWeapon)){     //if the cards have either no weapon requirement or a valid one
                 //Tuple(Dict(txt, success), if_failed, if_hidden)
                 var checkTuple = exParser.checkConditions(c.conditions.statConditions);
                 var if_failed = checkTuple.Item2;

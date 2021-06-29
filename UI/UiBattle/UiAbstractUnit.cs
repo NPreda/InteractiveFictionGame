@@ -102,6 +102,19 @@ public class UiAbstractUnit : MonoBehaviour
         DirtUI();
     }
 
+
+    public void RemoveStatus(StatusType statusType, int amount)
+    {
+        foreach(StatusEffect status in statusEffects)
+        {
+            if(status.statusType == statusType)
+            {
+                status.Remove(amount);
+            }
+        } 
+        DirtUI();
+    }
+
     public void RemoveAllStatuses()
     {
         foreach(StatusEffect status in statusEffects)

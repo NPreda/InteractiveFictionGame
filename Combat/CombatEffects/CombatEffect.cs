@@ -37,7 +37,7 @@ public class CombatEffect
 
     }
 
-    private bool EffectDodged(ITarget source, ITarget target)
+    protected bool EffectDodged(ITarget source, ITarget target)
     {
         float diceResult = Random.Range(0f, 1f);
         if (diceResult >= CalculateHitChance(source.ReturnSpeed(),target.ReturnSpeed()))
@@ -48,7 +48,7 @@ public class CombatEffect
         }
     }
 
-    private float CalculateHitChance(int attackerSpeed, int defenderSpeed)
+    protected float CalculateHitChance(int attackerSpeed, int defenderSpeed)
     {
         float hitChance = (DodgeConstant/100f) * (attackerSpeed/defenderSpeed);
         return hitChance;

@@ -19,6 +19,8 @@ public interface ITarget
 
     void RemoveStatus(StatusType statusType);
 
+    void RemoveStatus(StatusType statusType, int amount);
+
     void RemoveAllStatuses();
 
     int ReturnSpeed();

@@ -34,7 +34,12 @@ public class StatusEffect
 
     public void Remove()
     {
+        stack = 0;
+    }
 
+    public void Remove(int amount)
+    {
+        stack = (int) Mathf.Clamp(stack-amount, 0, Mathf.Infinity);
     }
 
     public virtual void OnTurnStart()
