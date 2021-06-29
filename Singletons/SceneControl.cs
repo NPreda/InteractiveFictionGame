@@ -16,6 +16,7 @@ public class SceneControl : MonoBehaviour
     public CombatSystem combatSystem;
     public CharMenu charMenu;
     public SceneState sceneState;
+    public Canvas mainCanvas;
 
     //Instance Control
     //variables to help global instance selection

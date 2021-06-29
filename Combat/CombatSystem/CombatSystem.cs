@@ -19,6 +19,7 @@ public class CombatSystem : TweeningMover, IStateMachineHandler
 
     //Various buttons
     public UIPressButton turnButton;
+    public UIPressButton fleeButton;
 
     //the hand system
     public int handSize;
@@ -32,6 +33,7 @@ public class CombatSystem : TweeningMover, IStateMachineHandler
     //defautl storylets for the win and loss states
     public Storylet defaultWin;
     public Storylet defaultLoss;
+    public Storylet fleeStorylet;
 
     //FSM and Blackboard
     CombatSystemFsm Fsm;
@@ -61,7 +63,8 @@ public class CombatSystem : TweeningMover, IStateMachineHandler
         RegisterButtons();
         defaultWin = ct.winResult;
         defaultLoss = ct.loseResult;
-        
+        fleeStorylet = ct.fleeResult;
+
         units = ct.units;
 
         StartState();
@@ -154,10 +157,13 @@ public class CombatSystem : TweeningMover, IStateMachineHandler
 
     public void RegisterButtons(){
         turnButton.OnClickEvent += FinishPlayerTurn;
+        fleeButton.OnClickEvent += SpawnText;
     }
 
     public void UnregisterButtons(){
         turnButton.OnClickEvent -= FinishPlayerTurn;
+        fleeButton.OnClickEvent -= SpawnText;
+
     }
 
     public void RefreshUI()
@@ -218,6 +224,11 @@ public class CombatSystem : TweeningMover, IStateMachineHandler
     {
         unitInfoPanel.HidePanel();
         logControl.gameObject.SetActive(true);
+    }
+
+    public void SpawnText(UIButton button)
+    {
+        EscapeState();
     }
 
     #endregion

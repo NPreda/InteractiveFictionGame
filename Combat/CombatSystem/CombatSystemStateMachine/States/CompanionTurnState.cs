@@ -21,6 +21,7 @@ public class CompanionTurnState : BaseCombatSystemState
 
     public override void OnEnterState()
     {
+        CombatBlackboard.Player.FinishTurn();   //hackish placement due to preventing accidental death while switching to the victory/flee state due to status effects
         EnemyTurn();
     }
 

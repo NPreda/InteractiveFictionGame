@@ -28,7 +28,6 @@ public class PlayerTurnState : BaseCombatSystemState
     public override void OnExitState()
     {
         new DiscardHandCommand().AddToQueue();
-        CombatBlackboard.Player.FinishTurn();
     }
 
     #endregion
