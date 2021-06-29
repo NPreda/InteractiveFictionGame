@@ -128,7 +128,7 @@ public class ItemSlot : MonoBehaviour
                 sb.Append(statName);
             }
         }
-        tooltipBody = tooltipBody + "\n\n" + sb.ToString();
+        tooltipBody = tooltipBody + "\n" + sb.ToString();
         return tooltipBody;
     }
 
