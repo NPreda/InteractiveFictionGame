@@ -18,11 +18,11 @@ public class SpawnSplashTextCommand: Command
         GameObject textPrefab = Resources.Load("Prefabs/BattleUI/unitPopText") as GameObject;
         GameObject resSplash = GameObject.Instantiate(textPrefab,  SceneControl.Instance.mainCanvas.transform) as GameObject;
         var textComponent = resSplash.GetComponent<TMP_Text>();
-        textComponent.color = displayColor;;
+        textComponent.color = displayColor;
         textComponent.text = displayText;       
         resSplash.GetComponent<FadeTween>().StartTextFade();   
 
-        DelayAction(1f);    //let anymation play
+        new WaitCommand(1f).AddToQueue();
 
         CommandExecutionComplete();
     }

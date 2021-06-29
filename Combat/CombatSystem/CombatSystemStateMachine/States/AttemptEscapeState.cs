@@ -1,4 +1,4 @@
-
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -35,11 +35,12 @@ public class AttemptEscapeState : BaseCombatSystemState
 
         if(result)
         {
-            new SpawnSplashTextCommand("Result is: " + result, Color.green).AddToQueue();
+            new SpawnSplashTextCommand("Escaped" , Color.green).AddToQueue();
             new PlayStoryTriggerCommand(Handler.fleeStorylet).AddToQueue();
         }
         else
         {
+            new SpawnSplashTextCommand("Escape Failed", Color.red).AddToQueue();
             Handler.CompanionState();   
         }
 
@@ -49,7 +50,6 @@ public class AttemptEscapeState : BaseCombatSystemState
     {
 
     }
-
 
 
     #endregion
