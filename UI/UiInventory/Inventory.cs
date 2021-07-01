@@ -103,6 +103,7 @@ public class Inventory : MonoBehaviour
         else if(!inInventory(item.id)) //check if being added
         {
             inventoryItems.Add(item);
+            if(ReturnEquippedType(item.equipmentType) == null) item.isEquipped = true;
         }
     }
 
